@@ -1,0 +1,41 @@
+type Test {
+  id: ID
+  test: String!
+}
+
+type User {
+  username: String! @id
+  displayName: String
+  picture: String
+}
+
+type RestrictedByRole
+  @auth(
+    query: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
+    add: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
+    update: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
+    delete: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
+  ) {
+  id: ID
+  text: String
+}
+
+type RestrictedByOwner
+  @auth(
+    query: {
+      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
+    }
+    add: {
+      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
+    }
+    update: {
+      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
+    }
+    delete: {
+      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
+    }
+  ) {
+  id: ID
+  text: String
+  owner: User!
+}
