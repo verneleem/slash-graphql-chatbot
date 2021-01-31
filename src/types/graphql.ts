@@ -14,132 +14,30 @@ export type Scalars = {
   Int: number;
   Float: number;
   /**
-   * The DateTime scalar type represents date and time as a string in RFC3339 format.
-   * For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
-   */
-  DateTime: any;
-  /**
    * The Int64 scalar type represents a signed 64‐bit numeric non‐fractional value.
    * Int64 can represent values in range [-(2^63),(2^63 - 1)].
    */
   Int64: any;
+  /**
+   * The DateTime scalar type represents date and time as a string in RFC3339 format.
+   * For example: "1985-04-12T23:20:50.52Z" represents 20 minutes and 50.52 seconds after the 23rd hour of April 12th, 1985 in UTC.
+   */
+  DateTime: any;
 };
 
-export type IntersectsFilter = {
-  polygon?: Maybe<PolygonRef>;
-  multiPolygon?: Maybe<MultiPolygonRef>;
+export type NearFilter = {
+  distance: Scalars['Float'];
+  coordinate: PointRef;
 };
 
-export type StringExactFilter = {
-  eq?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Maybe<Scalars['String']>>>;
-  le?: Maybe<Scalars['String']>;
-  lt?: Maybe<Scalars['String']>;
-  ge?: Maybe<Scalars['String']>;
-  gt?: Maybe<Scalars['String']>;
-  between?: Maybe<StringRange>;
-};
-
-export type StringHashFilter = {
-  eq?: Maybe<Scalars['String']>;
-  in?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type Test = {
-  __typename?: 'Test';
-  id?: Maybe<Scalars['ID']>;
-  test: Scalars['String'];
-};
-
-export type Int64Range = {
-  min: Scalars['Int64'];
-  max: Scalars['Int64'];
-};
-
-export enum Mode {
-  Batch = 'BATCH',
-  Single = 'SINGLE',
-}
-
-export type PointRef = {
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
-};
-
-export type AddRestrictedByRoleInput = {
-  text?: Maybe<Scalars['String']>;
+export type StringRegExpFilter = {
+  regexp?: Maybe<Scalars['String']>;
 };
 
 export type RestrictedByOwnerRef = {
   id?: Maybe<Scalars['ID']>;
   text?: Maybe<Scalars['String']>;
   owner?: Maybe<UserRef>;
-};
-
-export enum RestrictedByOwnerOrderable {
-  Text = 'text',
-}
-
-export enum RestrictedByRoleOrderable {
-  Text = 'text',
-}
-
-export type StringRange = {
-  min: Scalars['String'];
-  max: Scalars['String'];
-};
-
-export type AuthRule = {
-  and?: Maybe<Array<Maybe<AuthRule>>>;
-  or?: Maybe<Array<Maybe<AuthRule>>>;
-  not?: Maybe<AuthRule>;
-  rule?: Maybe<Scalars['String']>;
-};
-
-export type PointList = {
-  __typename?: 'PointList';
-  points: Array<Point>;
-};
-
-export type MultiPolygon = {
-  __typename?: 'MultiPolygon';
-  polygons: Array<Polygon>;
-};
-
-export type DateTimeFilter = {
-  eq?: Maybe<Scalars['DateTime']>;
-  le?: Maybe<Scalars['DateTime']>;
-  lt?: Maybe<Scalars['DateTime']>;
-  ge?: Maybe<Scalars['DateTime']>;
-  gt?: Maybe<Scalars['DateTime']>;
-  between?: Maybe<DateTimeRange>;
-};
-
-export type UpdateTestInput = {
-  filter: TestFilter;
-  set?: Maybe<TestPatch>;
-  remove?: Maybe<TestPatch>;
-};
-
-export type UserOrder = {
-  asc?: Maybe<UserOrderable>;
-  desc?: Maybe<UserOrderable>;
-  then?: Maybe<UserOrder>;
-};
-
-export type UserRef = {
-  username?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-};
-
-export type StringFullTextFilter = {
-  alloftext?: Maybe<Scalars['String']>;
-  anyoftext?: Maybe<Scalars['String']>;
-};
-
-export type AddTestInput = {
-  test: Scalars['String'];
 };
 
 export type RestrictedByRoleFilter = {
@@ -150,86 +48,15 @@ export type RestrictedByRoleFilter = {
   not?: Maybe<RestrictedByRoleFilter>;
 };
 
-export type ContainsFilter = {
-  point?: Maybe<PointRef>;
-  polygon?: Maybe<PolygonRef>;
+export type RestrictedByRoleOrder = {
+  asc?: Maybe<RestrictedByRoleOrderable>;
+  desc?: Maybe<RestrictedByRoleOrderable>;
+  then?: Maybe<RestrictedByRoleOrder>;
 };
 
-export type RestrictedByOwnerAggregateResult = {
-  __typename?: 'RestrictedByOwnerAggregateResult';
-  count?: Maybe<Scalars['Int']>;
-  textMin?: Maybe<Scalars['String']>;
-  textMax?: Maybe<Scalars['String']>;
-};
-
-export type TestRef = {
-  id?: Maybe<Scalars['ID']>;
-  test?: Maybe<Scalars['String']>;
-};
-
-export type UpdateRestrictedByOwnerInput = {
-  filter: RestrictedByOwnerFilter;
-  set?: Maybe<RestrictedByOwnerPatch>;
-  remove?: Maybe<RestrictedByOwnerPatch>;
-};
-
-export type RestrictedByOwner = {
-  __typename?: 'RestrictedByOwner';
-  id?: Maybe<Scalars['ID']>;
-  text?: Maybe<Scalars['String']>;
-  owner: User;
-};
-
-export type RestrictedByOwnerOwnerArgs = {
-  filter?: Maybe<UserFilter>;
-};
-
-export type IntRange = {
-  min: Scalars['Int'];
-  max: Scalars['Int'];
-};
-
-export type WithinFilter = {
-  polygon: PolygonRef;
-};
-
-export type DateTimeRange = {
-  min: Scalars['DateTime'];
-  max: Scalars['DateTime'];
-};
-
-export enum UserHasFilter {
-  Username = 'username',
-  DisplayName = 'displayName',
-  Picture = 'picture',
-}
-
-export type RestrictedByOwnerOrder = {
-  asc?: Maybe<RestrictedByOwnerOrderable>;
-  desc?: Maybe<RestrictedByOwnerOrderable>;
-  then?: Maybe<RestrictedByOwnerOrder>;
-};
-
-export type RestrictedByOwnerPatch = {
-  text?: Maybe<Scalars['String']>;
-  owner?: Maybe<UserRef>;
-};
-
-export type CustomHttp = {
-  url: Scalars['String'];
-  method: HttpMethod;
-  body?: Maybe<Scalars['String']>;
-  graphql?: Maybe<Scalars['String']>;
-  mode?: Maybe<Mode>;
-  forwardHeaders?: Maybe<Array<Scalars['String']>>;
-  secretHeaders?: Maybe<Array<Scalars['String']>>;
-  introspectionHeaders?: Maybe<Array<Scalars['String']>>;
-  skipIntrospection?: Maybe<Scalars['Boolean']>;
-};
-
-export type NearFilter = {
-  distance: Scalars['Float'];
-  coordinate: PointRef;
+export type Int64Range = {
+  min: Scalars['Int64'];
+  max: Scalars['Int64'];
 };
 
 export type Int64Filter = {
@@ -241,243 +68,23 @@ export type Int64Filter = {
   between?: Maybe<Int64Range>;
 };
 
-export type StringTermFilter = {
-  allofterms?: Maybe<Scalars['String']>;
-  anyofterms?: Maybe<Scalars['String']>;
-};
-
-export type StringRegExpFilter = {
-  regexp?: Maybe<Scalars['String']>;
-};
-
-export type TestAggregateResult = {
-  __typename?: 'TestAggregateResult';
-  count?: Maybe<Scalars['Int']>;
-  testMin?: Maybe<Scalars['String']>;
-  testMax?: Maybe<Scalars['String']>;
-};
-
-export type UserAggregateResult = {
-  __typename?: 'UserAggregateResult';
-  count?: Maybe<Scalars['Int']>;
-  usernameMin?: Maybe<Scalars['String']>;
-  usernameMax?: Maybe<Scalars['String']>;
-  displayNameMin?: Maybe<Scalars['String']>;
-  displayNameMax?: Maybe<Scalars['String']>;
-  pictureMin?: Maybe<Scalars['String']>;
-  pictureMax?: Maybe<Scalars['String']>;
-};
-
-export type TestPatch = {
-  test?: Maybe<Scalars['String']>;
-};
-
-export type PointGeoFilter = {
+export type PolygonGeoFilter = {
   near?: Maybe<NearFilter>;
   within?: Maybe<WithinFilter>;
+  contains?: Maybe<ContainsFilter>;
+  intersects?: Maybe<IntersectsFilter>;
 };
 
-export type AddRestrictedByOwnerPayload = {
-  __typename?: 'AddRestrictedByOwnerPayload';
-  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
-  numUids?: Maybe<Scalars['Int']>;
+export type UpdateRestrictedByOwnerInput = {
+  filter: RestrictedByOwnerFilter;
+  set?: Maybe<RestrictedByOwnerPatch>;
+  remove?: Maybe<RestrictedByOwnerPatch>;
 };
 
-export type AddRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
-  filter?: Maybe<RestrictedByOwnerFilter>;
-  order?: Maybe<RestrictedByOwnerOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateRestrictedByOwnerPayload = {
-  __typename?: 'UpdateRestrictedByOwnerPayload';
-  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
-  filter?: Maybe<RestrictedByOwnerFilter>;
-  order?: Maybe<RestrictedByOwnerOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type RestrictedByRoleOrder = {
-  asc?: Maybe<RestrictedByRoleOrderable>;
-  desc?: Maybe<RestrictedByRoleOrderable>;
-  then?: Maybe<RestrictedByRoleOrder>;
-};
-
-export type UserFilter = {
-  username?: Maybe<StringHashFilter>;
-  has?: Maybe<UserHasFilter>;
-  and?: Maybe<Array<Maybe<UserFilter>>>;
-  or?: Maybe<Array<Maybe<UserFilter>>>;
-  not?: Maybe<UserFilter>;
-};
-
-export type PolygonRef = {
-  coordinates: Array<PointListRef>;
-};
-
-export type GenerateMutationParams = {
-  add?: Maybe<Scalars['Boolean']>;
-  update?: Maybe<Scalars['Boolean']>;
-  delete?: Maybe<Scalars['Boolean']>;
-};
-
-export type DeleteRestrictedByRolePayload = {
-  __typename?: 'DeleteRestrictedByRolePayload';
-  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
-  msg?: Maybe<Scalars['String']>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type DeleteRestrictedByRolePayloadRestrictedByRoleArgs = {
-  filter?: Maybe<RestrictedByRoleFilter>;
-  order?: Maybe<RestrictedByRoleOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateTestPayload = {
-  __typename?: 'UpdateTestPayload';
-  test?: Maybe<Array<Maybe<Test>>>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateTestPayloadTestArgs = {
-  filter?: Maybe<TestFilter>;
-  order?: Maybe<TestOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export enum RestrictedByOwnerHasFilter {
-  Text = 'text',
-  Owner = 'owner',
-}
-
-export enum HttpMethod {
-  Get = 'GET',
-  Post = 'POST',
-  Put = 'PUT',
-  Patch = 'PATCH',
-  Delete = 'DELETE',
-}
-
-export type UpdateRestrictedByRolePayload = {
-  __typename?: 'UpdateRestrictedByRolePayload';
-  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateRestrictedByRolePayloadRestrictedByRoleArgs = {
-  filter?: Maybe<RestrictedByRoleFilter>;
-  order?: Maybe<RestrictedByRoleOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateUserPayload = {
-  __typename?: 'UpdateUserPayload';
-  user?: Maybe<Array<Maybe<User>>>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type UpdateUserPayloadUserArgs = {
-  filter?: Maybe<UserFilter>;
-  order?: Maybe<UserOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type RestrictedByOwnerFilter = {
-  id?: Maybe<Array<Scalars['ID']>>;
-  has?: Maybe<RestrictedByOwnerHasFilter>;
-  and?: Maybe<Array<Maybe<RestrictedByOwnerFilter>>>;
-  or?: Maybe<Array<Maybe<RestrictedByOwnerFilter>>>;
-  not?: Maybe<RestrictedByOwnerFilter>;
-};
-
-export type RestrictedByRolePatch = {
-  text?: Maybe<Scalars['String']>;
-};
-
-export type RestrictedByRoleRef = {
-  id?: Maybe<Scalars['ID']>;
-  text?: Maybe<Scalars['String']>;
-};
-
-export type UpdateRestrictedByRoleInput = {
-  filter: RestrictedByRoleFilter;
-  set?: Maybe<RestrictedByRolePatch>;
-  remove?: Maybe<RestrictedByRolePatch>;
-};
-
-export type User = {
-  __typename?: 'User';
-  username: Scalars['String'];
-  displayName?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-};
-
-export type FloatRange = {
-  min: Scalars['Float'];
-  max: Scalars['Float'];
-};
-
-export type Point = {
-  __typename?: 'Point';
-  longitude: Scalars['Float'];
-  latitude: Scalars['Float'];
-};
-
-export type PointListRef = {
-  points: Array<PointRef>;
-};
-
-export type FloatFilter = {
-  eq?: Maybe<Scalars['Float']>;
-  le?: Maybe<Scalars['Float']>;
-  lt?: Maybe<Scalars['Float']>;
-  ge?: Maybe<Scalars['Float']>;
-  gt?: Maybe<Scalars['Float']>;
-  between?: Maybe<FloatRange>;
-};
-
-export type DeleteTestPayload = {
-  __typename?: 'DeleteTestPayload';
-  test?: Maybe<Array<Maybe<Test>>>;
-  msg?: Maybe<Scalars['String']>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type DeleteTestPayloadTestArgs = {
-  filter?: Maybe<TestFilter>;
-  order?: Maybe<TestOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export type RestrictedByRole = {
-  __typename?: 'RestrictedByRole';
-  id?: Maybe<Scalars['ID']>;
-  text?: Maybe<Scalars['String']>;
-};
-
-export type MultiPolygonRef = {
-  polygons: Array<PolygonRef>;
-};
-
-export type IntFilter = {
-  eq?: Maybe<Scalars['Int']>;
-  le?: Maybe<Scalars['Int']>;
-  lt?: Maybe<Scalars['Int']>;
-  ge?: Maybe<Scalars['Int']>;
-  gt?: Maybe<Scalars['Int']>;
-  between?: Maybe<IntRange>;
+export type UserOrder = {
+  asc?: Maybe<UserOrderable>;
+  desc?: Maybe<UserOrderable>;
+  then?: Maybe<UserOrder>;
 };
 
 export type Query = {
@@ -556,19 +163,71 @@ export type QueryAggregateRestrictedByOwnerArgs = {
   filter?: Maybe<RestrictedByOwnerFilter>;
 };
 
-export enum TestHasFilter {
-  Test = 'test',
+export type DateTimeRange = {
+  min: Scalars['DateTime'];
+  max: Scalars['DateTime'];
+};
+
+export type MultiPolygon = {
+  __typename?: 'MultiPolygon';
+  polygons: Array<Polygon>;
+};
+
+export type GenerateMutationParams = {
+  add?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<Scalars['Boolean']>;
+  delete?: Maybe<Scalars['Boolean']>;
+};
+
+export enum RestrictedByRoleHasFilter {
+  Text = 'text',
 }
 
-export enum TestOrderable {
-  Test = 'test',
+export enum Mode {
+  Batch = 'BATCH',
+  Single = 'SINGLE',
 }
 
-export type PolygonGeoFilter = {
-  near?: Maybe<NearFilter>;
-  within?: Maybe<WithinFilter>;
-  contains?: Maybe<ContainsFilter>;
-  intersects?: Maybe<IntersectsFilter>;
+export type AddUserPayload = {
+  __typename?: 'AddUserPayload';
+  user?: Maybe<Array<Maybe<User>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type AddUserPayloadUserArgs = {
+  filter?: Maybe<UserFilter>;
+  order?: Maybe<UserOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateUserPayload = {
+  __typename?: 'UpdateUserPayload';
+  user?: Maybe<Array<Maybe<User>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateUserPayloadUserArgs = {
+  filter?: Maybe<UserFilter>;
+  order?: Maybe<UserOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type TestOrder = {
+  asc?: Maybe<TestOrderable>;
+  desc?: Maybe<TestOrderable>;
+  then?: Maybe<TestOrder>;
+};
+
+export type FloatRange = {
+  min: Scalars['Float'];
+  max: Scalars['Float'];
+};
+
+export type PointRef = {
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
 };
 
 export type GenerateQueryParams = {
@@ -578,34 +237,60 @@ export type GenerateQueryParams = {
   aggregate?: Maybe<Scalars['Boolean']>;
 };
 
-export type AddRestrictedByRolePayload = {
-  __typename?: 'AddRestrictedByRolePayload';
-  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
+export type IntFilter = {
+  eq?: Maybe<Scalars['Int']>;
+  le?: Maybe<Scalars['Int']>;
+  lt?: Maybe<Scalars['Int']>;
+  ge?: Maybe<Scalars['Int']>;
+  gt?: Maybe<Scalars['Int']>;
+  between?: Maybe<IntRange>;
+};
+
+export type UpdateRestrictedByOwnerPayload = {
+  __typename?: 'UpdateRestrictedByOwnerPayload';
+  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
   numUids?: Maybe<Scalars['Int']>;
 };
 
-export type AddRestrictedByRolePayloadRestrictedByRoleArgs = {
-  filter?: Maybe<RestrictedByRoleFilter>;
-  order?: Maybe<RestrictedByRoleOrder>;
+export type UpdateRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
+  filter?: Maybe<RestrictedByOwnerFilter>;
+  order?: Maybe<RestrictedByOwnerOrder>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
 };
 
-export type AddTestPayload = {
-  __typename?: 'AddTestPayload';
-  test?: Maybe<Array<Maybe<Test>>>;
-  numUids?: Maybe<Scalars['Int']>;
-};
-
-export type AddTestPayloadTestArgs = {
-  filter?: Maybe<TestFilter>;
-  order?: Maybe<TestOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
-};
-
-export enum RestrictedByRoleHasFilter {
+export enum RestrictedByRoleOrderable {
   Text = 'text',
+}
+
+export type UpdateRestrictedByRoleInput = {
+  filter: RestrictedByRoleFilter;
+  set?: Maybe<RestrictedByRolePatch>;
+  remove?: Maybe<RestrictedByRolePatch>;
+};
+
+export type WithinFilter = {
+  polygon: PolygonRef;
+};
+
+export type RestrictedByRoleAggregateResult = {
+  __typename?: 'RestrictedByRoleAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  textMin?: Maybe<Scalars['String']>;
+  textMax?: Maybe<Scalars['String']>;
+};
+
+export type TestAggregateResult = {
+  __typename?: 'TestAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  testMin?: Maybe<Scalars['String']>;
+  testMax?: Maybe<Scalars['String']>;
+};
+
+export enum UserHasFilter {
+  Username = 'username',
+  DisplayName = 'displayName',
+  Picture = 'picture',
 }
 
 export enum UserOrderable {
@@ -614,26 +299,12 @@ export enum UserOrderable {
   Picture = 'picture',
 }
 
-export type AddRestrictedByOwnerInput = {
-  text?: Maybe<Scalars['String']>;
-  owner: UserRef;
+export type AddTestInput = {
+  test: Scalars['String'];
 };
 
-export type AddUserInput = {
-  username: Scalars['String'];
-  displayName?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-};
-
-export type UpdateUserInput = {
-  filter: UserFilter;
-  set?: Maybe<UserPatch>;
-  remove?: Maybe<UserPatch>;
-};
-
-export type UserPatch = {
-  displayName?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
+export type TestPatch = {
+  test?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -700,6 +371,149 @@ export type MutationDeleteRestrictedByOwnerArgs = {
   filter: RestrictedByOwnerFilter;
 };
 
+export type PointGeoFilter = {
+  near?: Maybe<NearFilter>;
+  within?: Maybe<WithinFilter>;
+};
+
+export type FloatFilter = {
+  eq?: Maybe<Scalars['Float']>;
+  le?: Maybe<Scalars['Float']>;
+  lt?: Maybe<Scalars['Float']>;
+  ge?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  between?: Maybe<FloatRange>;
+};
+
+export type UpdateRestrictedByRolePayload = {
+  __typename?: 'UpdateRestrictedByRolePayload';
+  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateRestrictedByRolePayloadRestrictedByRoleArgs = {
+  filter?: Maybe<RestrictedByRoleFilter>;
+  order?: Maybe<RestrictedByRoleOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type UserAggregateResult = {
+  __typename?: 'UserAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  usernameMin?: Maybe<Scalars['String']>;
+  usernameMax?: Maybe<Scalars['String']>;
+  displayNameMin?: Maybe<Scalars['String']>;
+  displayNameMax?: Maybe<Scalars['String']>;
+  pictureMin?: Maybe<Scalars['String']>;
+  pictureMax?: Maybe<Scalars['String']>;
+};
+
+export enum RestrictedByOwnerHasFilter {
+  Text = 'text',
+  Owner = 'owner',
+}
+
+export type UserRef = {
+  username?: Maybe<Scalars['String']>;
+  displayName?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
+};
+
+export enum HttpMethod {
+  Get = 'GET',
+  Post = 'POST',
+  Put = 'PUT',
+  Patch = 'PATCH',
+  Delete = 'DELETE',
+}
+
+export type RestrictedByOwnerFilter = {
+  id?: Maybe<Array<Scalars['ID']>>;
+  has?: Maybe<RestrictedByOwnerHasFilter>;
+  and?: Maybe<Array<Maybe<RestrictedByOwnerFilter>>>;
+  or?: Maybe<Array<Maybe<RestrictedByOwnerFilter>>>;
+  not?: Maybe<RestrictedByOwnerFilter>;
+};
+
+export type UpdateUserInput = {
+  filter: UserFilter;
+  set?: Maybe<UserPatch>;
+  remove?: Maybe<UserPatch>;
+};
+
+export type PointListRef = {
+  points: Array<PointRef>;
+};
+
+export type Polygon = {
+  __typename?: 'Polygon';
+  coordinates: Array<PointList>;
+};
+
+export type PolygonRef = {
+  coordinates: Array<PointListRef>;
+};
+
+export type MultiPolygonRef = {
+  polygons: Array<PolygonRef>;
+};
+
+export type DeleteTestPayload = {
+  __typename?: 'DeleteTestPayload';
+  test?: Maybe<Array<Maybe<Test>>>;
+  msg?: Maybe<Scalars['String']>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type DeleteTestPayloadTestArgs = {
+  filter?: Maybe<TestFilter>;
+  order?: Maybe<TestOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type RestrictedByOwnerOrder = {
+  asc?: Maybe<RestrictedByOwnerOrderable>;
+  desc?: Maybe<RestrictedByOwnerOrderable>;
+  then?: Maybe<RestrictedByOwnerOrder>;
+};
+
+export type StringRange = {
+  min: Scalars['String'];
+  max: Scalars['String'];
+};
+
+export type IntersectsFilter = {
+  polygon?: Maybe<PolygonRef>;
+  multiPolygon?: Maybe<MultiPolygonRef>;
+};
+
+export type DeleteRestrictedByOwnerPayload = {
+  __typename?: 'DeleteRestrictedByOwnerPayload';
+  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
+  msg?: Maybe<Scalars['String']>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type DeleteRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
+  filter?: Maybe<RestrictedByOwnerFilter>;
+  order?: Maybe<RestrictedByOwnerOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type RestrictedByOwner = {
+  __typename?: 'RestrictedByOwner';
+  id?: Maybe<Scalars['ID']>;
+  text?: Maybe<Scalars['String']>;
+  owner: User;
+};
+
+export type RestrictedByOwnerOwnerArgs = {
+  filter?: Maybe<UserFilter>;
+};
+
 export enum DgraphIndex {
   Int = 'int',
   Int64 = 'int64',
@@ -718,29 +532,61 @@ export enum DgraphIndex {
   Geo = 'geo',
 }
 
-export type AddUserPayload = {
-  __typename?: 'AddUserPayload';
-  user?: Maybe<Array<Maybe<User>>>;
-  numUids?: Maybe<Scalars['Int']>;
+export type CustomHttp = {
+  url: Scalars['String'];
+  method: HttpMethod;
+  body?: Maybe<Scalars['String']>;
+  graphql?: Maybe<Scalars['String']>;
+  mode?: Maybe<Mode>;
+  forwardHeaders?: Maybe<Array<Scalars['String']>>;
+  secretHeaders?: Maybe<Array<Scalars['String']>>;
+  introspectionHeaders?: Maybe<Array<Scalars['String']>>;
+  skipIntrospection?: Maybe<Scalars['Boolean']>;
 };
 
-export type AddUserPayloadUserArgs = {
-  filter?: Maybe<UserFilter>;
-  order?: Maybe<UserOrder>;
-  first?: Maybe<Scalars['Int']>;
-  offset?: Maybe<Scalars['Int']>;
+export type AddUserInput = {
+  username: Scalars['String'];
+  displayName?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
 };
 
-export type DeleteRestrictedByOwnerPayload = {
-  __typename?: 'DeleteRestrictedByOwnerPayload';
-  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
+export type RestrictedByOwnerPatch = {
+  text?: Maybe<Scalars['String']>;
+  owner?: Maybe<UserRef>;
+};
+
+export type UpdateTestInput = {
+  filter: TestFilter;
+  set?: Maybe<TestPatch>;
+  remove?: Maybe<TestPatch>;
+};
+
+export type AuthRule = {
+  and?: Maybe<Array<Maybe<AuthRule>>>;
+  or?: Maybe<Array<Maybe<AuthRule>>>;
+  not?: Maybe<AuthRule>;
+  rule?: Maybe<Scalars['String']>;
+};
+
+export type DateTimeFilter = {
+  eq?: Maybe<Scalars['DateTime']>;
+  le?: Maybe<Scalars['DateTime']>;
+  lt?: Maybe<Scalars['DateTime']>;
+  ge?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  between?: Maybe<DateTimeRange>;
+};
+
+export type DeleteRestrictedByRolePayload = {
+  __typename?: 'DeleteRestrictedByRolePayload';
+  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
   msg?: Maybe<Scalars['String']>;
   numUids?: Maybe<Scalars['Int']>;
 };
 
-export type DeleteRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
-  filter?: Maybe<RestrictedByOwnerFilter>;
-  order?: Maybe<RestrictedByOwnerOrder>;
+export type DeleteRestrictedByRolePayloadRestrictedByRoleArgs = {
+  filter?: Maybe<RestrictedByRoleFilter>;
+  order?: Maybe<RestrictedByRoleOrder>;
   first?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
 };
@@ -759,16 +605,92 @@ export type DeleteUserPayloadUserArgs = {
   offset?: Maybe<Scalars['Int']>;
 };
 
-export type Polygon = {
-  __typename?: 'Polygon';
-  coordinates: Array<PointList>;
+export enum TestOrderable {
+  Test = 'test',
+}
+
+export type AddRestrictedByRoleInput = {
+  text?: Maybe<Scalars['String']>;
 };
 
-export type RestrictedByRoleAggregateResult = {
-  __typename?: 'RestrictedByRoleAggregateResult';
-  count?: Maybe<Scalars['Int']>;
-  textMin?: Maybe<Scalars['String']>;
-  textMax?: Maybe<Scalars['String']>;
+export type RestrictedByRoleRef = {
+  id?: Maybe<Scalars['ID']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+export type IntRange = {
+  min: Scalars['Int'];
+  max: Scalars['Int'];
+};
+
+export type PointList = {
+  __typename?: 'PointList';
+  points: Array<Point>;
+};
+
+export type StringTermFilter = {
+  allofterms?: Maybe<Scalars['String']>;
+  anyofterms?: Maybe<Scalars['String']>;
+};
+
+export type StringFullTextFilter = {
+  alloftext?: Maybe<Scalars['String']>;
+  anyoftext?: Maybe<Scalars['String']>;
+};
+
+export type StringHashFilter = {
+  eq?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type UserFilter = {
+  username?: Maybe<StringHashFilter>;
+  has?: Maybe<UserHasFilter>;
+  and?: Maybe<Array<Maybe<UserFilter>>>;
+  or?: Maybe<Array<Maybe<UserFilter>>>;
+  not?: Maybe<UserFilter>;
+};
+
+export type User = {
+  __typename?: 'User';
+  username: Scalars['String'];
+  displayName?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
+};
+
+export type StringExactFilter = {
+  eq?: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  le?: Maybe<Scalars['String']>;
+  lt?: Maybe<Scalars['String']>;
+  ge?: Maybe<Scalars['String']>;
+  gt?: Maybe<Scalars['String']>;
+  between?: Maybe<StringRange>;
+};
+
+export type UpdateTestPayload = {
+  __typename?: 'UpdateTestPayload';
+  test?: Maybe<Array<Maybe<Test>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type UpdateTestPayloadTestArgs = {
+  filter?: Maybe<TestFilter>;
+  order?: Maybe<TestOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export enum RestrictedByOwnerOrderable {
+  Text = 'text',
+}
+
+export enum TestHasFilter {
+  Test = 'test',
+}
+
+export type RestrictedByRolePatch = {
+  text?: Maybe<Scalars['String']>;
 };
 
 export type TestFilter = {
@@ -779,8 +701,86 @@ export type TestFilter = {
   not?: Maybe<TestFilter>;
 };
 
-export type TestOrder = {
-  asc?: Maybe<TestOrderable>;
-  desc?: Maybe<TestOrderable>;
-  then?: Maybe<TestOrder>;
+export type TestRef = {
+  id?: Maybe<Scalars['ID']>;
+  test?: Maybe<Scalars['String']>;
+};
+
+export type Test = {
+  __typename?: 'Test';
+  id?: Maybe<Scalars['ID']>;
+  test: Scalars['String'];
+};
+
+export type RestrictedByRole = {
+  __typename?: 'RestrictedByRole';
+  id?: Maybe<Scalars['ID']>;
+  text?: Maybe<Scalars['String']>;
+};
+
+export type Point = {
+  __typename?: 'Point';
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
+};
+
+export type ContainsFilter = {
+  point?: Maybe<PointRef>;
+  polygon?: Maybe<PolygonRef>;
+};
+
+export type AddRestrictedByOwnerPayload = {
+  __typename?: 'AddRestrictedByOwnerPayload';
+  restrictedByOwner?: Maybe<Array<Maybe<RestrictedByOwner>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type AddRestrictedByOwnerPayloadRestrictedByOwnerArgs = {
+  filter?: Maybe<RestrictedByOwnerFilter>;
+  order?: Maybe<RestrictedByOwnerOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type AddRestrictedByRolePayload = {
+  __typename?: 'AddRestrictedByRolePayload';
+  restrictedByRole?: Maybe<Array<Maybe<RestrictedByRole>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type AddRestrictedByRolePayloadRestrictedByRoleArgs = {
+  filter?: Maybe<RestrictedByRoleFilter>;
+  order?: Maybe<RestrictedByRoleOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type AddTestPayload = {
+  __typename?: 'AddTestPayload';
+  test?: Maybe<Array<Maybe<Test>>>;
+  numUids?: Maybe<Scalars['Int']>;
+};
+
+export type AddTestPayloadTestArgs = {
+  filter?: Maybe<TestFilter>;
+  order?: Maybe<TestOrder>;
+  first?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+};
+
+export type RestrictedByOwnerAggregateResult = {
+  __typename?: 'RestrictedByOwnerAggregateResult';
+  count?: Maybe<Scalars['Int']>;
+  textMin?: Maybe<Scalars['String']>;
+  textMax?: Maybe<Scalars['String']>;
+};
+
+export type AddRestrictedByOwnerInput = {
+  text?: Maybe<Scalars['String']>;
+  owner: UserRef;
+};
+
+export type UserPatch = {
+  displayName?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
 };
