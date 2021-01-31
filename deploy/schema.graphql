@@ -7,35 +7,25 @@ type User {
   username: String! @id
   displayName: String
   picture: String
+  createdBlocks: [Block] @hasInverse(field: "author")
 }
 
-type RestrictedByRole
-  @auth(
-    query: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
-    add: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
-    update: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
-    delete: { rule: "{$USER_ROLE: {eq: \"User\"}}" }
-  ) {
-  id: ID
-  text: String
+enum Format {
+  Text
+  Image
+  Wait
+  Markup
+  Link
+  LinkExt
 }
 
-type RestrictedByOwner
-  @auth(
-    query: {
-      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
-    }
-    add: {
-      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
-    }
-    update: {
-      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
-    }
-    delete: {
-      rule: "query ($username: String!) { queryRestrictedByOwner { owner(filter: { username: { eq: $username } }) { username } } }"
-    }
-  ) {
-  id: ID
-  text: String
-  owner: User!
+type Block {
+  id: ID!
+  isRoot: Boolean
+  isSearchable: Boolean @search
+  format: Format
+  content: String @search(by: [hash, term, fulltext, regexp])
+  next: [Block] @hasInverse(field: "prev")
+  prev: [Block] @hasInverse(field: "next")
+  author: User!
 }
