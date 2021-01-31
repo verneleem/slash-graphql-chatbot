@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TestNodes } from './TestNodes';
 import { UserAggregateResult } from './types/graphql';
+import ChatBot from './chatbot';
 
 function Default() {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
@@ -147,6 +148,7 @@ function App() {
     <ApolloProvider
       client={createApolloClient(isAuthenticated ? getIdTokenClaims : null)}
     >
+      <ChatBot />
       <BrowserRouter>
         <Switch>
           <Route exact path="/test" component={TestNodes} />
