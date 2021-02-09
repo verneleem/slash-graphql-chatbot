@@ -1,0 +1,32 @@
+.rcw-conversation-container > .rcw-header {
+  background: linear-gradient(135deg, #dea256, #e6753b, #e11c8e, #7660aa);
+  background-size: 200% 200%;
+  animation: gradient 7s ease infinite;
+}
+
+.rcw-launcher {
+  background: linear-gradient(90deg, #ff4200 0.01%, #e50695 99.99%);
+}
+
+.rcw-header > .rcw-close-button {
+  background: none;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.rcw-message > .rcw-response {
+  /* background-color: black; */
+  /* color: white; */
+}

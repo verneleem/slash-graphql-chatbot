@@ -13,7 +13,6 @@ type User {
 enum Format {
   Text
   Image
-  Wait
   Markup
   Link
   LinkExt
@@ -24,8 +23,23 @@ type Block {
   isRoot: Boolean
   isSearchable: Boolean @search
   format: Format
+  delay: Float
   content: String @search(by: [hash, term, fulltext, regexp])
   next: [Block] @hasInverse(field: "prev")
   prev: [Block] @hasInverse(field: "next")
   author: User!
+}
+
+type Message {
+  id: ID
+  by: User
+  in: Conversation
+  read: Boolean
+  at: DateTime!
+}
+
+type Conversation {
+  id: ID!
+  by: User
+  messages: [Message] @hasInverse(field: "in")
 }

@@ -1,142 +1,118 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { ApolloProvider, gql, useQuery } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import createApolloClient from './ApolloConfig';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TestNodes } from './TestNodes';
-import { UserAggregateResult } from './types/graphql';
-import ChatBot from './chatbot';
+import Slashbot from './Slashbot';
+import ReactMarkdown from 'react-markdown';
+import Train from './Slashbot/train';
 
-function Default() {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  const { data, loading, error } = useQuery<{
-    __typename: string;
-    aggregateUser: UserAggregateResult;
-  }>(
-    gql`
-      query upCheck {
-        __typename
-        aggregateUser {
-          count
-        }
-      }
-    `,
+// Use Markdown to render to the page.
+const content = `
+<center>
+
+# Welcome to Slashbot
+
+## A chatbot powered by Dgraph's [Slash GraphQL](https://slash.dgraph.io)!
+</center>
+
+Slashbot is a chatbot that uses an AI that is taught by you. To get started, install Slashbot
+
+
+**_Coming soon_**, you will be able to run,
+> \`\`\`sh
+> npm install slashbot
+> \`\`\`
+
+But for now, just fork this project.
+
+### 1. Import the Slashbot component and drop it into your index file.
+
+> \`\`\`javascript
+> import React from 'react';
+> import SlashBot from './Slashbot'
+> 
+> function App() {
+>   return (
+>     <div calssName="App">
+>       <Slashbot GraphQLEndpoint="https://your-endpoint.location.cloud.dgraph.io/graphql" >
+>         {/** Your other components here... */}
+>       </Slashbot>
+>     </div>
+>   )
+> }
+> \`\`\`
+
+### 2. Drop the \`Train\` anywhere in your app inside of the \`Slashbot\` wrapper. This component is how you add the blocks and routes for the bot to follow.
+
+We dropped ours in a Route:
+
+> \`\`\`javascript
+> <Slashbot>
+>   <Switch>
+>     {/** Other routes here... */}
+>     <Route path="/train" component={Train} />
+>   </Switch>
+> </Slashbot>
+> \`\`\`
+
+> #### The bot trainer form is a little buggy still right now. WIP
+
+That is it! You can add some more configuration that is based upon [React Chat Widget](https://www.npmjs.com/package/react-chat-widget).
+`;
+
+const Header: React.FC = () => {
+  return (
+    <header className="App-header">
+      <div
+        style={{
+          width: '700px',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <img src={logo} className="App-logo" alt="React logo" />
+        <img
+          src="https://dgraph.io/assets/images/slashgraphql-logo.svg"
+          // src="https://qsius.com/skins/Dgraph/assets/images/favicons/safari-pinned-tab.svg"
+          className="Slash-logo"
+          alt="Slash GraphQL logo"
+        />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/1/17/GraphQL_Logo.svg"
+          className="App-logo"
+          alt="GraphQL Logo"
+        />
+      </div>
+      <div
+        style={{
+          width: '700px',
+          display: 'flex',
+          justifyContent: 'space-around',
+        }}
+      >
+        <Link to="/">Home</Link>
+        <Link to="/train">Train Slashbot</Link>
+      </div>
+    </header>
   );
+};
+
+const Main: React.FC = ({ children }) => {
   return (
     <div className="App">
-      <header className="App-header">
-        <div
-          style={{
-            width: '800px',
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-        >
-          <img src={logo} className="App-logo" alt="React logo" />
-          <img
-            src="https://dgraph.io/assets/images/slashgraphql-logo.svg"
-            // src="https://qsius.com/skins/Dgraph/assets/images/favicons/safari-pinned-tab.svg"
-            className="Slash-logo"
-            // className="App-logo"
-            alt="Slash GraphQL logo"
-          />
-          <img
-            src="https://openid.net/wordpress-content/uploads/2016/05/auth0-logo-blue.png"
-            className="Slash-logo"
-            alt="Auth0 logo"
-          />
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/1/17/GraphQL_Logo.svg"
-            className="App-logo"
-            alt="GraphQL Logo"
-          />
-        </div>
-        {loading && <p>Connecting to Slash GraphQL</p>}
-        {error && (
-          <>
-            <p>Could not connect to Slash GraphQL:</p>
-            <pre
-              style={{
-                textAlign: 'left',
-                whiteSpace: 'pre-wrap',
-                wordWrap: 'break-word',
-                fontSize: '14px',
-              }}
-            >
-              {Boolean(error) && JSON.stringify(error, undefined, '  ')}
-            </pre>
-          </>
-        )}
-        <p>
-          {data?.__typename === 'Query' && (
-            <>Successfully connected to Slash GraphQL!</>
-          )}
-          {data?.aggregateUser && (
-            <> Found {data.aggregateUser.count} user(s)</>
-          )}
-        </p>
-        <a className="App-link" href="/test">
-          CRUD Test
-        </a>
-        {isAuthenticated && (
-          <>
-            <p>A login was successful with the following user data:</p>
-            <pre
-              style={{
-                textAlign: 'left',
-                whiteSpace: 'pre-wrap',
-                wordWrap: 'break-word',
-                fontSize: '14px',
-              }}
-            >
-              {JSON.stringify(user, undefined, '  ')}
-            </pre>
-            <button
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
-              Logout
-            </button>
-          </>
-        )}
-        {!isAuthenticated && (
-          <>
-            <p>There is currently no Authenticated User.</p>
-            <button
-              onClick={() => loginWithRedirect()}
-              style={{ padding: '10px' }}
-            >
-              Authenticate with Auth0
-            </button>
-          </>
-        )}
-        <br />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            minWidth: '650px',
-          }}
-        >
-          <a
-            className="App-link"
-            href="https://dgraph.io/learn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Slash
-          </a>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </div>
-      </header>
+      <Header />
+      <div className="Main">{children}</div>
+    </div>
+  );
+};
+
+function Default() {
+  return (
+    <div style={{ textAlign: 'left', padding: '0 80px 20px 80px' }}>
+      <ReactMarkdown children={content} allowDangerousHtml />
     </div>
   );
 }
@@ -148,13 +124,16 @@ function App() {
     <ApolloProvider
       client={createApolloClient(isAuthenticated ? getIdTokenClaims : null)}
     >
-      <ChatBot />
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/test" component={TestNodes} />
-          <Route path="/" component={Default} />
-        </Switch>
-      </BrowserRouter>
+      <Slashbot GraphQLEndpoint="https://vocal-behavior.us-west-2.aws.cloud.dgraph.io/graphql">
+        <BrowserRouter>
+          <Main>
+            <Switch>
+              <Route exact path="/" component={Default} />
+              <Route path="/train" component={Train} />
+            </Switch>
+          </Main>
+        </BrowserRouter>
+      </Slashbot>
     </ApolloProvider>
   );
 }
